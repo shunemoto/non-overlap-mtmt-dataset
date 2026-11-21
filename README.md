@@ -4,7 +4,7 @@
 
 本データセットは、**非重複視野を有する複数カメラ環境における人物追跡（Non-overlapping Multi-Camera Tracking）**の研究を目的として構築したデータセットです。
 
-本データセットには、各カメラで撮影した映像、人物追跡アノテーション、およびカメラ間で同一人物を対応付けるためのGlobal ID情報が含まれています。
+このリポジトリでは、人物追跡アノテーションと、カメラ間で同一人物を対応付けるためのGlobal ID表を公開しています。撮影映像は個別に共有します。
 
 ---
 
@@ -88,7 +88,9 @@ frame_id, track_id, x, y, width, height, not_ignored, class_id, visibility
 
 を表します。
 
-Local Track IDは、**各カメラ・各シーケンス内での人物追跡ID**です。
+Local Track IDには、研究で使用したCVATの表示ID（display ID）を使います。IDの有効範囲は撮影シーケンス内の各カメラです。
+
+収録したGTは、研究時に使用したファイルと同じフレーム基準です。研究時と同じ同期済み動画で評価するときは、`0730/camC` のGTフレーム番号から10を引きます。[システム](https://github.com/shunemoto/non-overlap-mtmt-system)では既定設定で読み込み時に適用されます。
 
 ---
 
@@ -96,7 +98,7 @@ Local Track IDは、**各カメラ・各シーケンス内での人物追跡ID**
 
 カメラをまたいだ同一人物の対応関係は、`global_id_map.csv` に記録しています。
 
-基本形式は以下の通りです。
+基本形式は以下の通りです。 `local_track_id` は同じシーケンス・カメラの `gt.txt` の `track_id` に対応します。
 
 ```text
 sequence_id,global_id,camera_id,local_track_id
@@ -109,7 +111,7 @@ sequence_id,global_id,camera_id,local_track_id
 ```text
 .
 ├── README.md
-├── annotations/
+├── annotation/
 │   ├── 0720/
 │   ├── 0727/
 │   ├── 0730/
@@ -118,13 +120,11 @@ sequence_id,global_id,camera_id,local_track_id
 ├── global_ids/
 │   └── global_id_map.csv
 │
-├── figures/
-│   └── target_space.png
-│
-└── videos/
+└── figures/
+    └── target_space.png
 ```
 
-`annotations/` には各シーケンス・各カメラの人物追跡アノテーションを格納しています。
+`annotation/` には各シーケンス・各カメラの人物追跡アノテーションを格納しています。
 
 `global_ids/global_id_map.csv` には、各カメラのLocal Track IDとGlobal IDの対応関係を格納しています。
 
